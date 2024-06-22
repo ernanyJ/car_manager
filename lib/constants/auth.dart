@@ -1,0 +1,2 @@
+const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxYWRvcGloeHhxcnZ5dnFpd3NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM2NDM1MTgsImV4cCI6MjAyOTIxOTUxOH0.aqUGveqzF_QxqYCPSG2GvIqlPR6L4-dR_Xs8r6Ylms0';
+const dbUrl = 'https://xqadopihxxqrvyvqiwsp.supabase.co'; 

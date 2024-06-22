@@ -1,10 +1,7 @@
-import 'package:car_manager/widgets/trip_card.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:car_manager/controllers/vehicle_controller.dart';
+import 'package:car_manager/widgets/content_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
 import '../constants/colors.dart';
 
 class MainScreen extends StatelessWidget {
@@ -12,6 +9,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = VehicleController();
     RxInt currentOption = 1.obs;
 
     return Scaffold(
@@ -31,7 +29,10 @@ class MainScreen extends StatelessWidget {
                   child: SizedBox(
                     height: 150,
                     width: 150,
-                    child: Image.asset('images/man.jpg'),
+                    child: GestureDetector(
+                        onTap: () async {
+                         
+                        }, child: Image.asset('images/man.jpg')),
                   ),
                 ),
                 const Padding(
@@ -133,18 +134,8 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Expanded(
-            child: ListView(children: const [
-              TripCard(),
-              TripCard(),
-              TripCard(),
-              TripCard(),
-              TripCard(),
-              TripCard(),
-              TripCard(),
-              TripCard(),
-              TripCard(),
-            ]),
+          Obx(
+            () => ContentHandler(currentOption: currentOption.value),
           ),
         ],
       ),
