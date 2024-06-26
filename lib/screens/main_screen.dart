@@ -1,17 +1,18 @@
-
+import 'package:car_manager/controllers/user_repository.dart';
+import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/widgets/content_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants/colors.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-  
     RxInt currentOption = 1.obs;
-
+    Driver? currentDriver = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.transparent,
@@ -30,18 +31,17 @@ class MainScreen extends StatelessWidget {
                     height: 150,
                     width: 150,
                     child: GestureDetector(
-                        onTap: () async {
-                         
-                        }, child: Image.asset('images/man.jpg')),
+                        onTap: () async {},
+                        child: Image.asset('images/man.jpg')),
                   ),
                 ),
-                 Padding(
-                  padding: EdgeInsets.all(10.0),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(Get.arguments),
-                      Row(
+                      Text('currentDriver!.nome'),
+                      const Row(
                         children: [
                           Text("Status:"),
                           Text(" Disponível",
@@ -78,7 +78,7 @@ class MainScreen extends StatelessWidget {
               height: 70,
               color: bgGrey,
               child: Padding(
-                padding: EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Obx(
                   () => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
