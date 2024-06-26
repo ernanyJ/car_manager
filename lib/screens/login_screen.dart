@@ -1,6 +1,8 @@
+import 'package:car_manager/controllers/login_controller.dart';
 import 'package:car_manager/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -48,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                 controller: usernameController,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.person),
-                  hintText: 'Usuário',
+                  hintText: 'Login',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -70,16 +72,22 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
         FilledButton(
-          onPressed: () {
-            if (passwordController.text != '1234' &&
-                usernameController.text != 'joseoliveira') {
-              Get.showSnackbar(const GetSnackBar(
-                duration: Duration(seconds: 4),
-                message: "Verifique se o usuário ou senha estão corretos.",
-              ));
-            } else {
+          onPressed: () async {
+            LoginController controller = LoginController();
+            bool authConfirmation = await controller.auth(
+                usernameController.text, passwordController.text);
+            print(authConfirmation);
+
+            if (authConfirmation) {
               // TODO mudar para get.off depois
-              Get.to(const MainScreen());
+              Get.off(() => const MainScreen(), arguments: usernameController.text);
+            } else {
+              Get.showSnackbar(const GetSnackBar(
+                title: 'Usuário não encontrado',
+                duration: Duration(seconds: 4),
+                message:
+                    "Verifique se o login ou senha foram digitados corretamente.",
+              ));
             }
           },
           style: ButtonStyle(

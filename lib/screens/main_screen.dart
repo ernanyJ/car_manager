@@ -35,12 +35,12 @@ class MainScreen extends StatelessWidget {
                         }, child: Image.asset('images/man.jpg')),
                   ),
                 ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("José Oliveira"),
+                      Text(Get.arguments),
                       Row(
                         children: [
                           Text("Status:"),
