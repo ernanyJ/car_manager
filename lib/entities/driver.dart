@@ -3,23 +3,29 @@ class Driver {
   late String login;
   late String password;
   late String nome;
-  late String cargo;
+  String? cargo;
   late int idSecretary;
-
+  late bool disponivel;
   Driver(
       {required this.id,
       required this.login,
       required this.password,
       required this.nome,
-      required this.cargo,
-      required this.idSecretary});
+      this.cargo,
+      required this.idSecretary,
+      required this.disponivel
+      });
 
   Driver.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     login = json['login'];
-    password = json['password'];
+    password = json['senha'];
     nome = json['nome'];
-    cargo = json['cargo'];
-    idSecretary = json['id_sec'];
+    if (json['cargo'] != null) {
+      this.cargo = json['cargo'];
+    }
+    disponivel = json['disponivel'];
+    idSecretary = json['sec_id'];
+    disponivel = json['disponivel'];
   }
 }

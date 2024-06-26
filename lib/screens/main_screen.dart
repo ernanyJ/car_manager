@@ -14,11 +14,7 @@ class MainScreen extends StatelessWidget {
     RxInt currentOption = 1.obs;
     Driver? currentDriver = Get.arguments;
     return Scaffold(
-      appBar: AppBar(
-        foregroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.white,
-      ),
+      appBar: AppBar(),
       body: Column(
         children: [
           Padding(
@@ -40,12 +36,12 @@ class MainScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('currentDriver!.nome'),
-                      const Row(
+                      Text(currentDriver!.nome),
+                      Row(
                         children: [
                           Text("Status:"),
-                          Text(" Disponível",
-                              style: TextStyle(color: Colors.green)),
+                          Text(' ${currentDriver!.disponivel.toString() == 'false'? 'Indisponível':'Disponível'}',
+                              style: TextStyle(color: currentDriver!.disponivel? Colors.green : Colors.red)),
                         ],
                       ),
                       SizedBox(height: 10),

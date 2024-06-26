@@ -75,15 +75,16 @@ class LoginScreen extends StatelessWidget {
         FilledButton(
           onPressed: () async {
             LoginController controller = LoginController();
-            UserRepository repo = UserRepository();
-            Driver? currentDriver =
-                await repo.getUserByLogin(usernameController.text);
 
             bool authConfirmation = await controller.auth(
                 usernameController.text, passwordController.text);
 
             if (authConfirmation) {
-              Get.off(() => MainScreen(), arguments: currentDriver);
+              UserRepository repository = UserRepository();
+              Driver? driver =
+                  await repository.getUserByLogin(usernameController.text);
+
+              Get.off(() => MainScreen(), arguments: driver);
             } else {
               Get.showSnackbar(const GetSnackBar(
                 title: 'Usuário não encontrado',
