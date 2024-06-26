@@ -1,4 +1,4 @@
-import 'package:car_manager/controllers/vehicle_controller.dart';
+
 import 'package:car_manager/widgets/content_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = VehicleController();
+  
     RxInt currentOption = 1.obs;
 
     return Scaffold(

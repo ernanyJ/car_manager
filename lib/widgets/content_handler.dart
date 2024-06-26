@@ -1,18 +1,19 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:car_manager/controllers/vehicle_controller.dart';
 import 'package:car_manager/widgets/trip_card.dart';
-import 'package:car_manager/widgets/vehicle_card.dart';
-import 'package:flutter/material.dart';
+import 'package:car_manager/widgets/vehicle_info.dart';
 
+import 'package:flutter/material.dart';
 
 class ContentHandler extends StatelessWidget {
   ContentHandler({
     super.key,
     required this.currentOption,
   });
-
+  VehicleController controller = VehicleController();
   int currentOption = 0;
-
+  double defaultPad = 40.0;
   @override
   Widget build(BuildContext context) {
     switch (currentOption) {
@@ -26,9 +27,7 @@ class ContentHandler extends StatelessWidget {
           ),
         );
       case 2:
-        return Center(
-          child: VehicleCard(),
-        );
+        return VehicleInfo();
       case 3:
         return const Center(
           child: Text('Notificações'),
