@@ -1,4 +1,5 @@
 import 'package:car_manager/screens/login_screen.dart';
+import 'package:car_manager/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,7 +26,8 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(),
-        body: const LoginScreen(),
+        //TODO mudar body para LoginScreen()
+        body: const MainScreen(),
       ),
     );
   }

@@ -26,7 +26,7 @@ class ContentHandler extends StatelessWidget {
           ),
         );
       case 2:
-        return const Center(
+        return Center(
           child: VehicleCard(),
         );
       case 3:
