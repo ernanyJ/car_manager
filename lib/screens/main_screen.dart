@@ -1,5 +1,7 @@
-import 'package:car_manager/controllers/user_repository.dart';
+import 'package:car_manager/entities/vehicle.dart';
+import 'package:car_manager/repositories/user_repository.dart';
 import 'package:car_manager/entities/driver.dart';
+import 'package:car_manager/repositories/vehicle_repository.dart';
 import 'package:car_manager/widgets/content_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +29,13 @@ class MainScreen extends StatelessWidget {
                     height: 150,
                     width: 150,
                     child: GestureDetector(
-                        onTap: () async {},
+                        onTap: () async {
+                          VehicleRepository vehicleRepository =
+                              VehicleRepository();
+                              List<Map<String, dynamic>>? vehicle = await vehicleRepository.getVehicleById(5);
+                             var actualVehicle = Vehicle.fromJson(vehicle![0]);
+                          print(actualVehicle.placa);
+                        },
                         child: Image.asset('images/man.jpg')),
                   ),
                 ),
@@ -40,8 +48,12 @@ class MainScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text("Status:"),
-                          Text(' ${currentDriver!.disponivel.toString() == 'false'? 'Indisponível':'Disponível'}',
-                              style: TextStyle(color: currentDriver!.disponivel? Colors.green : Colors.red)),
+                          Text(
+                              ' ${currentDriver!.disponivel.toString() == 'false' ? 'Indisponível' : 'Disponível'}',
+                              style: TextStyle(
+                                  color: currentDriver!.disponivel
+                                      ? Colors.green
+                                      : Colors.red)),
                         ],
                       ),
                       SizedBox(height: 10),

@@ -1,5 +1,5 @@
 import 'package:car_manager/controllers/login_controller.dart';
-import 'package:car_manager/controllers/user_repository.dart';
+import 'package:car_manager/repositories/user_repository.dart';
 import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/screens/main_screen.dart';
 import 'package:flutter/material.dart';
