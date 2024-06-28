@@ -1,6 +1,8 @@
 import 'package:car_manager/controllers/login_controller.dart';
+import 'package:car_manager/entities/vehicle.dart';
 import 'package:car_manager/repositories/user_repository.dart';
 import 'package:car_manager/entities/driver.dart';
+import 'package:car_manager/repositories/vehicle_repository.dart';
 import 'package:car_manager/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -84,7 +86,14 @@ class LoginScreen extends StatelessWidget {
               Driver? driver =
                   await repository.getUserByLogin(usernameController.text);
 
-              Get.off(() => MainScreen(), arguments: driver);
+              VehicleRepository vehicleRepository = VehicleRepository();
+              Vehicle? car =
+                  await vehicleRepository.getCarById(driver!.veiculo);
+
+              List b = [driver, car];
+
+              print(car!.modelo);
+              Get.off(() => MainScreen(), arguments: b);
             } else {
               Get.showSnackbar(const GetSnackBar(
                 title: 'Usuário não encontrado',

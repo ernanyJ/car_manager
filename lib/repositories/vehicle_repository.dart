@@ -5,14 +5,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class VehicleRepository {
   final SupabaseClient supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>?> getVehicleById(int id) async {
-    try {
-      List<Map<String, dynamic>> vehicle =
-          await supabase.from('carro').select().eq('id', id);
-          return vehicle;
-    } on Exception {
-      print('error');
+  Future<List<Map<String, dynamic>>> getCars() async {
+    final data = await supabase.from('card').select();
+    return data;
+  }
+
+  Future<Vehicle?> getCarById(var id) async {
+    if (id.runtimeType == int) {
+      final data = await supabase.from('card').select().eq('carro_id', id);
+      final car = Vehicle.fromJson(data[0]);
+      return car;
     }
-    return null;
   }
 }

@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:car_manager/controllers/vehicle_controller.dart';
 import 'package:car_manager/entities/vehicle.dart';
 import 'package:car_manager/repositories/user_repository.dart';
 import 'package:car_manager/entities/driver.dart';
@@ -14,7 +17,11 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RxInt currentOption = 1.obs;
-    Driver? currentDriver = Get.arguments;
+    final b = Get.arguments;
+    Driver currentDriver = b[0];
+    Vehicle? assignedVehicle = b[1];
+
+    VehicleRepository vehicleRepository = VehicleRepository();
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -30,11 +37,10 @@ class MainScreen extends StatelessWidget {
                     width: 150,
                     child: GestureDetector(
                         onTap: () async {
-                          VehicleRepository vehicleRepository =
-                              VehicleRepository();
-                              List<Map<String, dynamic>>? vehicle = await vehicleRepository.getVehicleById(5);
-                             var actualVehicle = Vehicle.fromJson(vehicle![0]);
-                          print(actualVehicle.placa);
+                          var userRepo = UserRepository();
+
+                          // var car =
+                          //     await vehicleRepository.getCarById(user.veiculo!);
                         },
                         child: Image.asset('images/man.jpg')),
                   ),
@@ -56,21 +62,18 @@ class MainScreen extends StatelessWidget {
                                       : Colors.red)),
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Informações do veículo:",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 13),
-                      ),
-                      Text("Corolla XRS 2.0"),
-                      Text("Placa: ${'NAU-9211'}"),
-                      Text(
-                        "Quilometragem: ${'32.229km'}",
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      Text(
-                        "Consumo médio: ${'12km/l'}",
-                        style: TextStyle(fontSize: 13),
+                      FutureBuilder(
+                        future: vehicleRepository
+                            .getCarById(currentDriver!.veiculo),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return VehicleInfo(currentDriver, assignedVehicle);
+                          }
+                          if (!snapshot.hasData) {
+                            return Text("Nenhum veículo atribuído");
+                          }
+                          return const CircularProgressIndicator();
+                        },
                       ),
                     ],
                   ),
@@ -149,4 +152,30 @@ class MainScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget VehicleInfo(Driver? currentDriver, Vehicle? assignedVehicle) {
+  if (assignedVehicle != null) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        Text(
+          "Informações do veículo:",
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+        ),
+        Text(assignedVehicle!.modelo),
+        Text("Placa: ${assignedVehicle.placa}"),
+        Text(
+          "Quilometragem: ${assignedVehicle.placa}",
+          style: TextStyle(fontSize: 13),
+        ),
+        Text(
+          "Consumo médio: ${'12km/l'}",
+          style: TextStyle(fontSize: 13),
+        ),
+      ],
+    );
+  }
+  return Placeholder();
 }
