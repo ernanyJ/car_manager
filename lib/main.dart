@@ -1,3 +1,4 @@
+import 'package:car_manager/screens/adm_main_screen.dart';
 import 'package:car_manager/screens/login_screen.dart';
 import 'package:car_manager/screens/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,19 +16,17 @@ Future<void> main() async {
 }
 
 class MainApp extends StatelessWidget {
-  
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-  
     return GetMaterialApp(
       theme: ThemeData(fontFamily: 'JosefinSans'),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(),
         //TODO mudar body para LoginScreen()
-        body: const LoginScreen(),
+        body: AdmMainScreen(),
       ),
     );
   }

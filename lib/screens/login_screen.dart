@@ -104,26 +104,32 @@ class LoginScreen extends StatelessWidget {
                                     const Text('Acesso como administrador'),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        obscureText: false,
-                                        controller: admLoginCtrl,
-                                        decoration: const InputDecoration(
-                                          prefixIcon: Icon(Icons.person),
-                                          hintText: 'Login',
-                                          border: OutlineInputBorder(),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        obscureText: true,
-                                        controller: admPassCtrl,
-                                        decoration: const InputDecoration(
-                                          prefixIcon: Icon(Icons.lock),
-                                          hintText: 'Senha',
-                                          border: OutlineInputBorder(),
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          Form(
+                                            child: TextFormField(
+                                              obscureText: false,
+                                              controller: admLoginCtrl,
+                                              decoration: const InputDecoration(
+                                                prefixIcon: Icon(Icons.person),
+                                                hintText: 'Login',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              obscureText: true,
+                                              controller: admPassCtrl,
+                                              decoration: const InputDecoration(
+                                                prefixIcon: Icon(Icons.lock),
+                                                hintText: 'Senha',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     FilledButton(

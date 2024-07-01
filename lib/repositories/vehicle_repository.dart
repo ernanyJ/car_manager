@@ -1,5 +1,6 @@
 import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/entities/vehicle.dart';
+import 'package:car_manager/repositories/secretary_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class VehicleRepository {
@@ -16,5 +17,40 @@ class VehicleRepository {
       final car = Vehicle.fromJson(data[0]);
       return car;
     }
+  }
+
+  Future<List<String>> getBrandsAsList() async {
+    final brands = await supabase.from('marca').select();
+    List<String> nomes = [];
+    for (final map in brands) {
+      String nome = map['nome'];
+
+      nomes.add(nome);
+    }
+
+    // Retorna a lista de nomes
+    return nomes;
+  }
+
+  addVehicle(String model, String brand, String placa, String year, String km,
+      String sec) async {
+    final repo = SecretaryRepository();
+    final secretary = await repo.getSecretaryByName(sec);
+    print(secretary);
+
+    // selecionar/criar modelo e atribuir o id
+    final query = '''
+
+      {
+      'modelo_id': 1,
+      'placa': $placa,
+      'secretaria_id': 3,
+      'consumo_medio': '11.5',
+      }
+
+
+''';
+
+    await supabase.from('carro').insert(query);
   }
 }
