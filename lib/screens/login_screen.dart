@@ -3,6 +3,7 @@ import 'package:car_manager/entities/vehicle.dart';
 import 'package:car_manager/repositories/user_repository.dart';
 import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/repositories/vehicle_repository.dart';
+import 'package:car_manager/screens/adm_main_screen.dart';
 import 'package:car_manager/screens/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,8 @@ class LoginScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 40, right: 40),
                   child: TextFormField(
+                    onEditingComplete: () =>
+                        driverAuth(usernameController, passwordController),
                     obscureText: true,
                     controller: passwordController,
                     decoration: const InputDecoration(
@@ -124,18 +127,8 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                     ),
                                     FilledButton(
-                                      onPressed: () async {
-                                        LoginController controller =
-                                            LoginController();
-                                        bool auth = await controller.authAdm(
-                                            admLoginCtrl.text,
-                                            admPassCtrl.text);
-
-                                        if (auth) {
-                                          Get.snackbar('Sucessfull', 'Login');
-                                        } else {
-                                          Get.snackbar('Failed', 'Login');
-                                        }
+                                      onPressed: () {
+                                        admAuth(admLoginCtrl, admPassCtrl);
                                       },
                                       style: ButtonStyle(
                                           backgroundColor:
@@ -167,38 +160,49 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
         FilledButton(
-          onPressed: () async {
-            LoginController controller = LoginController();
-
-            bool authConfirmation = await controller.authDriver(
-                usernameController.text, passwordController.text);
-
-            if (authConfirmation) {
-              UserRepository repository = UserRepository();
-              Driver? driver =
-                  await repository.getUserByLogin(usernameController.text);
-
-              VehicleRepository vehicleRepository = VehicleRepository();
-              Vehicle? car =
-                  await vehicleRepository.getCarById(driver!.veiculo);
-
-              List b = [driver, car];
-
-              Get.off(() => MainScreen(), arguments: b);
-            } else {
-              Get.showSnackbar(const GetSnackBar(
-                title: 'Usuário não encontrado',
-                duration: Duration(seconds: 4),
-                message:
-                    "Verifique se o login ou senha foram digitados corretamente.",
-              ));
-            }
-          },
+          onPressed: () => driverAuth(usernameController, passwordController),
           style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(Colors.indigo)),
           child: const Text("Entrar"),
         )
       ],
     );
+  }
+
+  driverAuth(usernameController, passwordController) async {
+    LoginController controller = LoginController();
+
+    bool authConfirmation = await controller.authDriver(
+        usernameController.text, passwordController.text);
+
+    if (authConfirmation) {
+      UserRepository repository = UserRepository();
+      Driver? driver = await repository.getUserByLogin(usernameController.text);
+
+      VehicleRepository vehicleRepository = VehicleRepository();
+      Vehicle? car = await vehicleRepository.getCarById(driver!.veiculo);
+
+      List b = [driver, car];
+      // TODO mudar para get.off depois
+      Get.to(() => MainScreen(), arguments: b);
+    } else {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'Usuário não encontrado',
+        duration: Duration(seconds: 4),
+        message: "Verifique se o login ou senha foram digitados corretamente.",
+      ));
+    }
+  }
+
+  admAuth(admLoginCtrl, admPassCtrl) async {
+    LoginController controller = LoginController();
+    bool auth = await controller.authAdm(admLoginCtrl.text, admPassCtrl.text);
+
+    if (auth) {
+      Get.snackbar('Sucessfull', 'Login');
+      Get.to(AdmMainScreen());
+    } else {
+      Get.snackbar('Failed', 'Login');
+    }
   }
 }
