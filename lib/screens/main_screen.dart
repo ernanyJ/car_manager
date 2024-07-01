@@ -70,7 +70,12 @@ class MainScreen extends StatelessWidget {
                             return VehicleInfo(currentDriver, assignedVehicle);
                           }
                           if (!snapshot.hasData) {
-                            return Text("Nenhum veículo atribuído");
+                            return Column(
+                              children: [
+                                SizedBox(height: 10),
+                                Text("Nenhum veículo\natribuído ao motorista."),
+                              ],
+                            );
                           }
                           return const CircularProgressIndicator();
                         },

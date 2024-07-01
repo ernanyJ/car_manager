@@ -4,7 +4,9 @@ import 'package:car_manager/repositories/user_repository.dart';
 import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/repositories/vehicle_repository.dart';
 import 'package:car_manager/screens/main_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -59,17 +61,107 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40),
-              child: TextFormField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.person),
-                  hintText: 'Senha',
-                  border: OutlineInputBorder(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 40, right: 40),
+                  child: TextFormField(
+                    obscureText: true,
+                    controller: passwordController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.lock),
+                      hintText: 'Senha',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          TextEditingController admLoginCtrl =
+                              TextEditingController();
+                          TextEditingController admPassCtrl =
+                              TextEditingController();
+                          Get.dialog(
+                            Dialog(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[50],
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                width: 200,
+                                height: 300,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 50),
+                                    const Text('Acesso como administrador'),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        obscureText: false,
+                                        controller: admLoginCtrl,
+                                        decoration: const InputDecoration(
+                                          prefixIcon: Icon(Icons.person),
+                                          hintText: 'Login',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        obscureText: true,
+                                        controller: admPassCtrl,
+                                        decoration: const InputDecoration(
+                                          prefixIcon: Icon(Icons.lock),
+                                          hintText: 'Senha',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                    ),
+                                    FilledButton(
+                                      onPressed: () async {
+                                        LoginController controller =
+                                            LoginController();
+                                        bool auth = await controller.authAdm(
+                                            admLoginCtrl.text,
+                                            admPassCtrl.text);
+
+                                        if (auth) {
+                                          Get.snackbar('Sucessfull', 'Login');
+                                        } else {
+                                          Get.snackbar('Failed', 'Login');
+                                        }
+                                      },
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStateProperty.all<Color>(
+                                                  Colors.indigo)),
+                                      child: const Text('Entrar'),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Entrar como administrador',
+                          style: TextStyle(color: Colors.blueAccent),
+                        )),
+                    const SizedBox(
+                      width: 40,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  width: 1,
+                ),
+              ],
             ),
             const SizedBox(height: 20),
           ],
@@ -78,7 +170,7 @@ class LoginScreen extends StatelessWidget {
           onPressed: () async {
             LoginController controller = LoginController();
 
-            bool authConfirmation = await controller.auth(
+            bool authConfirmation = await controller.authDriver(
                 usernameController.text, passwordController.text);
 
             if (authConfirmation) {
@@ -92,7 +184,6 @@ class LoginScreen extends StatelessWidget {
 
               List b = [driver, car];
 
-              print(car!.modelo);
               Get.off(() => MainScreen(), arguments: b);
             } else {
               Get.showSnackbar(const GetSnackBar(
