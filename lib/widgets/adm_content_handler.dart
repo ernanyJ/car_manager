@@ -190,23 +190,51 @@ class AdmContentHandler extends StatelessWidget {
                                           },
                                         ),
                                       ),
-                                      FilledButton(
-                                        onPressed: () async {
-                                          final r = BrandRepository();
-                                          final brand =
-                                              await r.getBrandIdByName(
-                                                  selectedBrand.value);
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          FilledButton(
+                                            onPressed: () async {
+                                              List? status;
+                                              final r = BrandRepository();
+                                              final brand =
+                                                  await r.getBrandIdByName(
+                                                      selectedBrand.value);
 
-                                          final repo = VehicleRepository();
+                                              final repo = VehicleRepository();
 
-                                          await repo.addModel(
-                                              selectedModel.value,
-                                              brand,
-                                              placaCtrl.text,
-                                              selectedSecretary.value,
-                                              kmCtrl.text);
-                                        },
-                                        child: const Text("Adicionar"),
+                                              status = await repo.addModel(
+                                                  selectedModel.value,
+                                                  brand,
+                                                  placaCtrl.text,
+                                                  selectedSecretary.value,
+                                                  kmCtrl.text);
+                                              print('status => ${status[1]}');
+                                              if (status[0] == true) {
+                                                Get.showSnackbar(
+                                                  const GetSnackBar(
+                                                    title: 'Sucesso.',
+                                                    duration:
+                                                        Duration(seconds: 3),
+                                                    message:
+                                                        "O veículo foi adicionado a lista.",
+                                                  ),
+                                                );
+                                              } else {
+                                                Get.showSnackbar(
+                                                  GetSnackBar(
+                                                    title: 'Falha.',
+                                                    duration: const Duration(
+                                                        seconds: 3),
+                                                    message: status[1],
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: const Text("Adicionar"),
+                                          ),
+                                        ],
                                       )
                                     ],
                                   ),
