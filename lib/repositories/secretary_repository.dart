@@ -15,13 +15,8 @@ class SecretaryRepository {
     return list;
   }
 
-  Future<String> getSecretaryByName(String name) async {
-    final sec = await supabase.from('secretaria').select();
-    for (var i in sec) {
-      if (i['name'] == name) {
-        return i['id'];
-      }
-    }
-    return '';
+  Future<int> getSecretaryByName(String name) async {
+    final sec = await supabase.from('secretaria').select('id').eq('nome', name);
+    return sec[0]['id'];
   }
 }

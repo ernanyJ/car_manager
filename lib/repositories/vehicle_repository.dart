@@ -1,6 +1,7 @@
 import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/entities/vehicle.dart';
 import 'package:car_manager/repositories/secretary_repository.dart';
+import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class VehicleRepository {
@@ -32,29 +33,16 @@ class VehicleRepository {
     return nomes;
   }
 
-  addModel(String name, String brandId, String year){
-
-  }
-
-  addVehicle(String model, String brand, String placa, String year, String km,
-      String sec) async {
+  addModel(int modelId, int brandId, String placa, String secretariaId,
+      String quilometragem) async {
     final repo = SecretaryRepository();
-    final secretary = await repo.getSecretaryByName(sec);
-    print(secretary);
-
-    // selecionar/criar modelo e atribuir o id
-    final query = '''
-
-      {
-      'modelo_id': 1,
-      'placa': $placa,
-      'secretaria_id': 3,
-      'consumo_medio': '11.5',
-      }
-
-
-''';
-
-    await supabase.from('carro').insert(query);
+    final secretary = await repo.getSecretaryByName(secretariaId);
+    await supabase.from('carro').insert({
+      'modelo_id': modelId,
+      'placa': placa,
+      'secretaria_id': secretary,
+      'quilometragem': quilometragem,
+      'consumo_medio': 12.3
+    });
   }
 }

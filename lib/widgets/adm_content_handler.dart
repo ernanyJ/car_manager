@@ -3,6 +3,7 @@
 import 'package:car_manager/constants/colors.dart';
 import 'package:car_manager/controllers/vehicle_controller.dart';
 import 'package:car_manager/repositories/brand_repository.dart';
+import 'package:car_manager/repositories/model_repository.dart';
 import 'package:car_manager/repositories/secretary_repository.dart';
 import 'package:car_manager/repositories/vehicle_repository.dart';
 import 'package:car_manager/widgets/trip_card.dart';
@@ -24,10 +25,12 @@ class AdmContentHandler extends StatelessWidget {
   double defaultPad = 40.0;
   @override
   Widget build(BuildContext context) {
-    VehicleRepository repository = VehicleRepository();
-    SecretaryRepository secretary_repository = SecretaryRepository();
+    final repository = VehicleRepository();
+    final secretary_repository = SecretaryRepository();
+    final model_repository = ModelRepository();
 
     RxString selectedBrand = "Chevrolet".obs;
+    RxInt selectedModel = 1.obs;
     RxString selectedSecretary = "SEMUC".obs;
 
     switch (currentOption) {
@@ -50,6 +53,16 @@ class AdmContentHandler extends StatelessWidget {
                       final secretaries =
                           await secretary_repository.getAllSecretaries();
                       final vehicles = await repository.getBrandsAsList();
+                      final models = await model_repository.getModels();
+
+                      List<DropdownMenuItem> b = [];
+                      for (int i = 0; i < models.length; i++) {
+                        final drp = DropdownMenuItem(
+                          value: models[i]['id'],
+                          child: Text(models[i]['nome']),
+                        );
+                        b.add(drp);
+                      }
                       Get.dialog(
                         Dialog(
                           child: Padding(
@@ -58,7 +71,7 @@ class AdmContentHandler extends StatelessWidget {
                               width: 200,
                               height: 307,
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start, 
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text('Adicionar um veículo',
@@ -66,13 +79,23 @@ class AdmContentHandler extends StatelessWidget {
                                           color: Colors.indigo,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17.5)),
-                                  TextFormField(
-                                    controller: modelCtrl,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Modelo',
-                                      border: OutlineInputBorder(),
+
+                                  Obx(
+                                    () => DropdownButton(
+                                      value: selectedModel.value,
+                                      items: b,
+                                      onChanged: (b) {
+                                        selectedModel.value = b;
+                                      },
                                     ),
                                   ),
+                                  // TextFormField(
+                                  //   controller: modelCtrl,
+                                  //   decoration: const InputDecoration(
+                                  //     hintText: 'Modelo',
+                                  //     border: OutlineInputBorder(),
+                                  //   ),
+                                  // ),
                                   Obx(
                                     () => DropdownButton(
                                       value: selectedBrand.value,
@@ -85,7 +108,7 @@ class AdmContentHandler extends StatelessWidget {
                                           )
                                           .toList(),
                                       onChanged: (vehicle) {
-                                        selectedBrand.value = vehicle!; 
+                                        selectedBrand.value = vehicle!;
                                       },
                                     ),
                                   ),
@@ -133,6 +156,10 @@ class AdmContentHandler extends StatelessWidget {
                                         width: 140,
                                         child: TextFormField(
                                           controller: kmCtrl,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
                                           decoration: const InputDecoration(
                                             hintText: 'Quilometragem',
                                             border: OutlineInputBorder(),
@@ -165,12 +192,19 @@ class AdmContentHandler extends StatelessWidget {
                                       ),
                                       FilledButton(
                                         onPressed: () async {
-                                          final repo = VehicleRepository();
-                                          final brand_repository = BrandRepository();
-                                          var f = await brand_repository.getBrandIdByName(selectedBrand.value);
-                                          
-                                          await repo.addModel(modelCtrl.text, f, yearCtrl.text );
+                                          final r = BrandRepository();
+                                          final brand =
+                                              await r.getBrandIdByName(
+                                                  selectedBrand.value);
 
+                                          final repo = VehicleRepository();
+
+                                          await repo.addModel(
+                                              selectedModel.value,
+                                              brand,
+                                              placaCtrl.text,
+                                              selectedSecretary.value,
+                                              kmCtrl.text);
                                         },
                                         child: const Text("Adicionar"),
                                       )
