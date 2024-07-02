@@ -79,7 +79,6 @@ class AdmContentHandler extends StatelessWidget {
                                           color: Colors.indigo,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17.5)),
-
                                   Obx(
                                     () => DropdownButton(
                                       value: selectedModel.value,
@@ -89,13 +88,6 @@ class AdmContentHandler extends StatelessWidget {
                                       },
                                     ),
                                   ),
-                                  // TextFormField(
-                                  //   controller: modelCtrl,
-                                  //   decoration: const InputDecoration(
-                                  //     hintText: 'Modelo',
-                                  //     border: OutlineInputBorder(),
-                                  //   ),
-                                  // ),
                                   Obx(
                                     () => DropdownButton(
                                       value: selectedBrand.value,
