@@ -2,6 +2,7 @@
 
 import 'package:car_manager/constants/colors.dart';
 import 'package:car_manager/controllers/vehicle_controller.dart';
+import 'package:car_manager/repositories/brand_repository.dart';
 import 'package:car_manager/repositories/secretary_repository.dart';
 import 'package:car_manager/repositories/vehicle_repository.dart';
 import 'package:car_manager/widgets/trip_card.dart';
@@ -55,9 +56,9 @@ class AdmContentHandler extends StatelessWidget {
                             padding: const EdgeInsets.all(20.0),
                             child: SizedBox(
                               width: 200,
-                              height: 300,
+                              height: 307,
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start, 
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text('Adicionar um veículo',
@@ -84,7 +85,7 @@ class AdmContentHandler extends StatelessWidget {
                                           )
                                           .toList(),
                                       onChanged: (vehicle) {
-                                        selectedBrand.value = vehicle!;
+                                        selectedBrand.value = vehicle!; 
                                       },
                                     ),
                                   ),
@@ -165,13 +166,11 @@ class AdmContentHandler extends StatelessWidget {
                                       FilledButton(
                                         onPressed: () async {
                                           final repo = VehicleRepository();
-                                          await repo.addVehicle(
-                                              modelCtrl.text,
-                                              selectedBrand.value,
-                                              placaCtrl.text,
-                                              yearCtrl.text,
-                                              kmCtrl.text,
-                                              selectedSecretary.value);
+                                          final brand_repository = BrandRepository();
+                                          var f = await brand_repository.getBrandIdByName(selectedBrand.value);
+                                          
+                                          await repo.addModel(modelCtrl.text, f, yearCtrl.text );
+
                                         },
                                         child: const Text("Adicionar"),
                                       )

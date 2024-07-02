@@ -32,6 +32,10 @@ class VehicleRepository {
     return nomes;
   }
 
+  addModel(String name, String brandId, String year){
+
+  }
+
   addVehicle(String model, String brand, String placa, String year, String km,
       String sec) async {
     final repo = SecretaryRepository();
