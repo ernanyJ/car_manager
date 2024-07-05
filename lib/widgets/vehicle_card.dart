@@ -80,7 +80,8 @@ class VehicleCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                  'Secretaria: ${snapshot.data![index]['secretaria'].toString()}')
+                  'Secretaria: ${snapshot.data![index]['secretaria'].toString()}'),
+         
             ],
           ),
         ),

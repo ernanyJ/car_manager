@@ -1,9 +1,6 @@
-import 'dart:js_interop';
-
-import 'package:car_manager/entities/driver.dart';
 import 'package:car_manager/entities/vehicle.dart';
 import 'package:car_manager/repositories/secretary_repository.dart';
-import 'package:get/get.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class VehicleRepository {
@@ -56,7 +53,7 @@ class VehicleRepository {
     } catch (e) {
       r.add(false);
       String k = e.toString();
-      k = k.substring(k.indexOf(':')+1, k.indexOf(',')-4);
+      k = k.substring(k.indexOf(':') + 1, k.indexOf(',') - 4);
       r.add(k);
       return r;
     }

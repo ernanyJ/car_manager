@@ -61,8 +61,14 @@ class VehicleInfo extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: 12),
-                            Text(
-                                'Placa: ${snapshot.data![index]['placa'].toString()}'),
+                            Row(
+                              children: [
+                                Text(
+                                    'Placa: ${snapshot.data![index]['placa'].toString()}'),
+                                const SizedBox(width: 200),
+                                GestureDetector(child: const Icon(Icons.delete))
+                              ],
+                            ),
                           ],
                         ),
                       ),

@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(),
         //TODO mudar body para LoginScreen()
-        body: AdmMainScreen(),
+        body: LoginScreen(),
       ),
     );
   }

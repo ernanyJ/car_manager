@@ -206,7 +206,7 @@ class LoginScreen extends StatelessWidget {
 
     if (auth) {
       Get.snackbar('Sucessfull', 'Login');
-      Get.to(AdmMainScreen());
+      Get.to(AdmMainScreen(), arguments: admLoginCtrl.text);
     } else {
       Get.snackbar('Failed', 'Login');
     }

@@ -161,25 +161,28 @@ class MainScreen extends StatelessWidget {
 
 Widget VehicleInfo(Driver? currentDriver, Vehicle? assignedVehicle) {
   if (assignedVehicle != null) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 10),
-        Text(
-          "Informações do veículo:",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-        ),
-        Text(assignedVehicle!.modelo),
-        Text("Placa: ${assignedVehicle.placa}"),
-        Text(
-          "Quilometragem: ${assignedVehicle.placa}",
-          style: TextStyle(fontSize: 13),
-        ),
-        Text(
-          "Consumo médio: ${'12km/l'}",
-          style: TextStyle(fontSize: 13),
-        ),
-      ],
+    return SizedBox(
+      width: 161,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          Text(
+            "Informações do veículo:",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+          ),
+          Text(assignedVehicle!.modelo),
+          Text("Placa: ${assignedVehicle.placa}"),
+          Text(
+            "Quilometragem: ${assignedVehicle.placa}",
+            style: TextStyle(fontSize: 13),
+          ),
+          Text(
+            "Consumo médio: ${'12km/l'}",
+            style: TextStyle(fontSize: 13),
+          ),
+        ],
+      ),
     );
   }
   return Placeholder();

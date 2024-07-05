@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:car_manager/constants/colors.dart';
+import 'package:car_manager/constants/colors.dart';
+
 import 'package:car_manager/controllers/vehicle_controller.dart';
 import 'package:car_manager/repositories/brand_repository.dart';
+import 'package:car_manager/repositories/driver_repository.dart';
 import 'package:car_manager/repositories/model_repository.dart';
 import 'package:car_manager/repositories/secretary_repository.dart';
 import 'package:car_manager/repositories/vehicle_repository.dart';
@@ -266,11 +269,81 @@ class AdmContentHandler extends StatelessWidget {
           ),
         );
       case 3:
-        return const Center(
-          child: Text('dsadsa'),
-        );
+        return NotificationWidg();
     }
     return const Placeholder();
+  }
+
+  Column NotificationWidg() {
+    final driverRepository = DriverRepository();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 40.0),
+          child: GestureDetector(
+            onTap: () async {
+              final drivers = await driverRepository.getAllDrivers();
+              print(drivers);
+              Get.dialog(
+                Dialog(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: bgGrey,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: 300,
+                    height: 300,
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Criar solicitação',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Condutor'),
+                            DropdownButton(
+                              items: const [
+                                DropdownMenuItem(
+                                  child: Text('José Alfonso'),
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Marcos Davi'),
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Luan Wagner'),
+                                ),
+                              ],
+                              onChanged: (_) {},
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: bgGrey, borderRadius: BorderRadius.circular(20)),
+              width: 150,
+              height: 50,
+              child: const Center(child: Text('Enviar notificação')),
+            ),
+          ),
+        ),
+        Center(
+          child: Text(Get.arguments),
+        ),
+      ],
+    );
   }
 }
 
